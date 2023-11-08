@@ -1,1 +1,2 @@
-from .functions import yield_random_identifier
+from src import module
+print('src')

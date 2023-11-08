@@ -1,2 +1,3 @@
-from src import functions
+from src import module
+print("tests")
 
