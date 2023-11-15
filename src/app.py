@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from .database.DatabaseConnect import DatabaseConnect
 from .module.functions import change_to_json
 
@@ -16,6 +16,7 @@ def output_poop_get():
 
 @app.route("/api/output/poop", methods = ["POST"])
 def output_poop_add():
+
     return;
 
 @app.route("/api/output/poop", methods = ["DELETE"])
