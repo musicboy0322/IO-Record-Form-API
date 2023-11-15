@@ -1,12 +1,18 @@
 from flask import Flask
+from .database.DatabaseConnect import DatabaseConnect
+from .module.functions import change_to_json
 
 app = Flask(__name__)
+
+db = DatabaseConnect(); 
 
 # output api
 # poop
 @app.route("/api/output/poop", methods = ["GET"])
 def output_poop_get():
-    return "asdasdasdsa";
+    data = db.conn("SELECT * FROM output_poop")
+    data = change_to_json(data)
+    return data;
 
 @app.route("/api/output/poop", methods = ["POST"])
 def output_poop_add():
@@ -19,7 +25,9 @@ def output_poop_delete():
 # pee
 @app.route("/api/output/pee", methods = ["GET"])
 def output_pee_get():
-    return;
+    data = db.conn("SELECT * FROM output_pee")
+    data = change_to_json(data)
+    return data;
 
 @app.route("/api/output/pee", methods = ["POST"])
 def output_pee_add():
@@ -32,7 +40,9 @@ def output_pee_delete():
 # vomit
 @app.route("/api/output/vomit", methods = ["GET"])
 def output_vomit_get():
-    return;
+    data = db.conn("SELECT * FROM output_vomit")
+    data = change_to_json(data)
+    return data;
 
 @app.route("/api/output/vomit", methods = ["POST"])
 def output_vomit_add():
@@ -45,7 +55,9 @@ def output_vomit_delete():
 # input api
 @app.route("/api/input", methods = ["GET"])
 def input_get():
-    return;
+    data = db.conn("SELECT * FROM input")
+    data = change_to_json(data)
+    return data;
 
 @app.route("/api/input", methods = ["POST"])
 def input_add():
