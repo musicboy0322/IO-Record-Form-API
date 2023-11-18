@@ -1,0 +1,20 @@
+name: CI - docker building
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build & Push Image
+      run: |
+        cd ./src
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "nobody1990" --password-stdin
+        docker image build -t nobody1990/io-record-form .
+        docker push nobody1990/io-record-form
