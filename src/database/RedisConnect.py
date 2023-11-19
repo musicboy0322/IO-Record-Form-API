@@ -5,7 +5,7 @@ class RedisConnect:
 
     def __init__(self):
         config = configparser.ConfigParser()
-        config.read('C:\settings\config.ini')
+        config.read('config.ini')
         print(config)
 
         self.redis_settings = {
