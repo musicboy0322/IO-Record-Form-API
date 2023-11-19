@@ -71,11 +71,21 @@ def output_vomit_get():
 
 @app.route("/api/output/vomit", methods = ["POST"])
 def output_vomit_add():
-    return;
+    record_id = request.values['record_id']
+    date = request.values['date']
+    time = request.values['time']
+    amount = request.values['amount']
+    period = request.values['period']
+    result = db.conn_other(f"INSERT INTO output_vomit(record_id, date, time, amount, checked, period) VALUES ({record_id}, {date}, {time}, {amount}, false, {period})", "POST")
+    return result;
+
 
 @app.route("/api/output/vomit", methods = ["DELETE"])
 def output_vomit_delete():
-    return;
+    output_vomit_id = request.values['output_vomit_id']
+    record_id = request.values['record_id']
+    result = db.conn_other(f"DELETE FROM output_vomit WHERE output_vomit_id = {output_vomit_id} AND record_id = {record_id}", "DELETE")
+    return result;
 
 # input api
 @app.route("/api/input", methods = ["GET"])
