@@ -5,7 +5,8 @@ class RedisConnect:
 
     def __init__(self):
         config = configparser.ConfigParser()
-        config.read('C:/settings/config.ini')
+        config.read('/Users/mac/Desktop/config.ini')
+        print(config)
 
         self.redis_settings = {
             "host": config.get('Redis', 'REDIS_HOST'),
