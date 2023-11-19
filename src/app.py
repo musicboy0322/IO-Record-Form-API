@@ -46,11 +46,21 @@ def output_pee_get():
 
 @app.route("/api/output/pee", methods = ["POST"])
 def output_pee_add():
-    return;
+    record_id = request.values['record_id']
+    date = request.values['date']
+    time = request.values['time']
+    color_id = request.values['color_id']
+    amount = request.values['amount']
+    period = request.values['period']
+    result = db.conn_other(f"INSERT INTO output_pee(record_id, date, time, color_id, amount, checked, period) VALUES ({record_id}, {date}, {time}, {color_id}, {amount}, false, {period})", "POST")
+    return result;
 
 @app.route("/api/output/pee", methods = ["DELETE"])
 def output_pee_delete():
-    return;
+    output_pee_id = request.values['output_pee_id']
+    record_id = request.values['record_id']
+    result = db.conn_other(f"DELETE FROM output_pee WHERE output_pee_id = {output_pee_id} AND record_id = {record_id}", "DELETE")
+    return result;
 
 # vomit
 @app.route("/api/output/vomit", methods = ["GET"])
