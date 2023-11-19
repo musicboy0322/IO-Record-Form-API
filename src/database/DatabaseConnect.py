@@ -6,7 +6,6 @@ class DatabaseConnect:
     def __init__(self):
         config = configparser.ConfigParser()
         config.read('config.ini')
-        print(config.get('Database', 'DB_HOST'))
 
         self.db_settings = {
             "host": config.get('Database', 'DB_HOST'),
@@ -40,6 +39,7 @@ class DatabaseConnect:
             with connection.cursor() as cursor:
 
                 cursor.execute(command)
+                connection.commit()
 
                 return f"{action} Successful"
 

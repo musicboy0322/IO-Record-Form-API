@@ -1,3 +1,5 @@
+import re
+from turtle import color
 from flask import Flask, request
 from flask_cors import CORS
 from database.DatabaseConnect import DatabaseConnect
@@ -18,11 +20,22 @@ def output_poop_get():
 
 @app.route("/api/output/poop", methods = ["POST"])
 def output_poop_add():
-    return;
+    record_id = request.values['record_id']
+    date = request.values['date']
+    time = request.values['time']
+    property_id = request.values['property_id']
+    color_id = request.values['color_id']
+    amount = request.values['amount']
+    period = request.values['period']
+    result = db.conn_other(f"INSERT INTO output_poop(record_id, date, time, property_id, color_id, amount, checked, period) VALUES ({record_id}, {date}, {time}, {property_id}, {color_id}, {amount}, false, {period})", "POST")
+    return result;
 
 @app.route("/api/output/poop", methods = ["DELETE"])
 def output_poop_delete():
-    return;
+    output_poop_id = request.values['output_poop_id']
+    record_id = request.values['record_id']
+    result = db.conn_other(f"DELETE FROM output_poop WHERE output_poop_id = {output_poop_id} AND record_id = {record_id}", "DELETE")
+    return result;
 
 # pee
 @app.route("/api/output/pee", methods = ["GET"])
