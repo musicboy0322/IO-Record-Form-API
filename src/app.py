@@ -96,11 +96,23 @@ def input_get():
 
 @app.route("/api/input", methods = ["POST"])
 def input_add():
-    return;
+    record_id = request.values['record_id']
+    date = request.values['date']
+    time = request.values['time']
+    state = request.values['state']
+    category = request.values['category']
+    amount = request.values['amount']
+    period = request.values['period']
+    result = db.conn_other(f"INSERT INTO input(record_id, date, time, state, category, amount, checked, period) VALUES({record_id}, {date}, {time}, '{state}', '{category}', {amount}, false, {period})", "POST")
+    return "1233";
+
 
 @app.route("/api/input", methods = ["DELETE"])
 def input_delete():
-    return;
+    input_id = request.values['input_id']
+    record_id = request.values['record_id']
+    result = db.conn_other(f"DELETE FROM input WHERE input_id = {input_id} AND record_id = {record_id}", "DELETE")
+    return result;
 
 if __name__ == '__main__':
     app.run()
