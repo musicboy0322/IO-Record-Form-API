@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
-from .database.DatabaseConnect import DatabaseConnect
-from .module.functions import change_to_json
+from database.DatabaseConnect import DatabaseConnect
+from module.functions import change_to_json
 
 app = Flask(__name__)
 CORS(app)
