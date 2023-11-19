@@ -1,5 +1,3 @@
-import re
-from turtle import color
 from flask import Flask, request
 from flask_cors import CORS
 from database.DatabaseConnect import DatabaseConnect
