@@ -5,7 +5,7 @@ class DatabaseConnect:
     
     def __init__(self):
         config = configparser.ConfigParser()
-        config.read('/Users/mac/Desktop/config.ini')
+        config.read('C:\settings\config.ini')
         print(config.get('Database', 'DB_HOST'))
 
         self.db_settings = {
