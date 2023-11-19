@@ -25,8 +25,6 @@ class DatabaseConnect:
 
                 result = cursor.fetchall()
 
-                print(result)
-
                 return result
 
         except Exception as e:

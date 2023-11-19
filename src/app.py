@@ -14,7 +14,7 @@ db = DatabaseConnect();
 # poop
 @app.route("/api/output/poop", methods = ["GET"])
 def output_poop_get():
-    data = db.conn_get("SELECT * FROM output_poop")
+    data = db.conn_get("SELECT output_poop_id, record_id, date, time, property, color, amount, checked, period FROM output_poop LEFT JOIN output_poop_property ON output_poop.property_id = output_poop_property.property_id LEFT JOIN output_poop_color ON output_poop.color_id = output_poop_color.color_id;")
     data = change_to_json(data)
     return data;
 
@@ -27,20 +27,20 @@ def output_poop_add():
     color_id = request.values['color_id']
     amount = request.values['amount']
     period = request.values['period']
-    result = db.conn_other(f"INSERT INTO output_poop(record_id, date, time, property_id, color_id, amount, checked, period) VALUES ({record_id}, {date}, {time}, {property_id}, {color_id}, {amount}, false, {period})", "POST")
+    result = db.conn_other(f"INSERT INTO output_poop(record_id, date, time, property_id, color_id, amount, checked, period) VALUES ({record_id}, {date}, {time}, {property_id}, {color_id}, {amount}, false, {period});", "POST")
     return result;
 
 @app.route("/api/output/poop", methods = ["DELETE"])
 def output_poop_delete():
     output_poop_id = request.values['output_poop_id']
     record_id = request.values['record_id']
-    result = db.conn_other(f"DELETE FROM output_poop WHERE output_poop_id = {output_poop_id} AND record_id = {record_id}", "DELETE")
+    result = db.conn_other(f"DELETE FROM output_poop WHERE output_poop_id = {output_poop_id} AND record_id = {record_id};", "DELETE")
     return result;
 
 # pee
 @app.route("/api/output/pee", methods = ["GET"])
 def output_pee_get():
-    data = db.conn_get("SELECT * FROM output_pee")
+    data = db.conn_get("SELECT output_pee_id, record_id, date, time, color, amount, checked, period FROM output_pee LEFT JOIN output_pee_color ON output_pee.color_id = output_pee_color.color_id;")
     data = change_to_json(data)
     return data;
 
@@ -52,20 +52,20 @@ def output_pee_add():
     color_id = request.values['color_id']
     amount = request.values['amount']
     period = request.values['period']
-    result = db.conn_other(f"INSERT INTO output_pee(record_id, date, time, color_id, amount, checked, period) VALUES ({record_id}, {date}, {time}, {color_id}, {amount}, false, {period})", "POST")
+    result = db.conn_other(f"INSERT INTO output_pee(record_id, date, time, color_id, amount, checked, period) VALUES ({record_id}, {date}, {time}, {color_id}, {amount}, false, {period});", "POST")
     return result;
 
 @app.route("/api/output/pee", methods = ["DELETE"])
 def output_pee_delete():
     output_pee_id = request.values['output_pee_id']
     record_id = request.values['record_id']
-    result = db.conn_other(f"DELETE FROM output_pee WHERE output_pee_id = {output_pee_id} AND record_id = {record_id}", "DELETE")
+    result = db.conn_other(f"DELETE FROM output_pee WHERE output_pee_id = {output_pee_id} AND record_id = {record_id};", "DELETE")
     return result;
 
 # vomit
 @app.route("/api/output/vomit", methods = ["GET"])
 def output_vomit_get():
-    data = db.conn_get("SELECT * FROM output_vomit")
+    data = db.conn_get("SELECT * FROM output_vomit;")
     data = change_to_json(data)
     return data;
 
@@ -76,7 +76,7 @@ def output_vomit_add():
     time = request.values['time']
     amount = request.values['amount']
     period = request.values['period']
-    result = db.conn_other(f"INSERT INTO output_vomit(record_id, date, time, amount, checked, period) VALUES ({record_id}, {date}, {time}, {amount}, false, {period})", "POST")
+    result = db.conn_other(f"INSERT INTO output_vomit(record_id, date, time, amount, checked, period) VALUES ({record_id}, {date}, {time}, {amount}, false, {period});", "POST")
     return result;
 
 
@@ -84,13 +84,13 @@ def output_vomit_add():
 def output_vomit_delete():
     output_vomit_id = request.values['output_vomit_id']
     record_id = request.values['record_id']
-    result = db.conn_other(f"DELETE FROM output_vomit WHERE output_vomit_id = {output_vomit_id} AND record_id = {record_id}", "DELETE")
+    result = db.conn_other(f"DELETE FROM output_vomit WHERE output_vomit_id = {output_vomit_id} AND record_id = {record_id};", "DELETE")
     return result;
 
 # input api
 @app.route("/api/input", methods = ["GET"])
 def input_get():
-    data = db.conn_get("SELECT * FROM input")
+    data = db.conn_get("SELECT * FROM input;")
     data = change_to_json(data)
     return data;
 
@@ -103,15 +103,15 @@ def input_add():
     category = request.values['category']
     amount = request.values['amount']
     period = request.values['period']
-    result = db.conn_other(f"INSERT INTO input(record_id, date, time, state, category, amount, checked, period) VALUES({record_id}, {date}, {time}, '{state}', '{category}', {amount}, false, {period})", "POST")
-    return "1233";
+    result = db.conn_other(f"INSERT INTO input(record_id, date, time, state, category, amount, checked, period) VALUES({record_id}, {date}, {time}, '{state}', '{category}', {amount}, false, {period});", "POST")
+    return result;
 
 
 @app.route("/api/input", methods = ["DELETE"])
 def input_delete():
     input_id = request.values['input_id']
     record_id = request.values['record_id']
-    result = db.conn_other(f"DELETE FROM input WHERE input_id = {input_id} AND record_id = {record_id}", "DELETE")
+    result = db.conn_other(f"DELETE FROM input WHERE input_id = {input_id} AND record_id = {record_id};", "DELETE")
     return result;
 
 if __name__ == '__main__':
