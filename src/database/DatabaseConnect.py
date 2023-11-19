@@ -6,7 +6,7 @@ import pymysql
 class DatabaseConnect: 
     
     def __init__(self):
-        load_dotenv('C:\\settings\\.env')
+        load_dotenv('C:/settings/.env')
 
         self.db_settings = {
             "host": os.getenv('DB_HOST'),
