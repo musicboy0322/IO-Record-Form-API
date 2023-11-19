@@ -5,7 +5,8 @@ import os
 class RedisConnect:
 
     def __init__(self):
-        load_dotenv('C:/settings/.env')
+        dotenv_path = 'C:\settings\.env'
+        load_dotenv(dotenv_path)
 
         self.redis_settings = {
             "host": os.getenv('REDIS_HOST'),
