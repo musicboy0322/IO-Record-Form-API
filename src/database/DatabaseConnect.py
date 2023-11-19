@@ -1,3 +1,4 @@
+from multiprocessing import connection
 from dotenv import load_dotenv
 import os
 import pymysql
@@ -5,7 +6,7 @@ import pymysql
 class DatabaseConnect: 
     
     def __init__(self):
-        load_dotenv()
+        load_dotenv('C:\settings\.env')
 
         self.db_settings = {
             "host": os.getenv('DB_HOST'),
@@ -15,9 +16,9 @@ class DatabaseConnect:
             "db": os.getenv('DB_DATABASE')
         }
         
-    def conn(self, command):
+    def conn_get(self, command):
         try:
-            connection = pymysql.connect(**self.db_settings);
+            connection = pymysql.connect(**self.db_settings)
 
             with connection.cursor() as cursor:
 
@@ -28,6 +29,20 @@ class DatabaseConnect:
                 print(result)
 
                 return result
+
+        except Exception as e:
+            print(e)
+    
+    def conn_other(self, command, action):
+        try:
+            connection = pymysql.connect(**self.db_settings)
+
+            with connection.cursor() as cursor:
+
+                cursor.execute(command)
+
+                return f"{action} Successful"
+
 
         except Exception as e:
             print(e)

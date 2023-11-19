@@ -12,13 +12,12 @@ db = DatabaseConnect();
 # poop
 @app.route("/api/output/poop", methods = ["GET"])
 def output_poop_get():
-    data = db.conn("SELECT * FROM output_poop")
+    data = db.conn_get("SELECT * FROM output_poop")
     data = change_to_json(data)
     return data;
 
 @app.route("/api/output/poop", methods = ["POST"])
 def output_poop_add():
-
     return;
 
 @app.route("/api/output/poop", methods = ["DELETE"])
@@ -28,7 +27,7 @@ def output_poop_delete():
 # pee
 @app.route("/api/output/pee", methods = ["GET"])
 def output_pee_get():
-    data = db.conn("SELECT * FROM output_pee")
+    data = db.conn_get("SELECT * FROM output_pee")
     data = change_to_json(data)
     return data;
 
@@ -43,7 +42,7 @@ def output_pee_delete():
 # vomit
 @app.route("/api/output/vomit", methods = ["GET"])
 def output_vomit_get():
-    data = db.conn("SELECT * FROM output_vomit")
+    data = db.conn_get("SELECT * FROM output_vomit")
     data = change_to_json(data)
     return data;
 
@@ -58,7 +57,7 @@ def output_vomit_delete():
 # input api
 @app.route("/api/input", methods = ["GET"])
 def input_get():
-    data = db.conn("SELECT * FROM input")
+    data = db.conn_get("SELECT * FROM input")
     data = change_to_json(data)
     return data;
 
