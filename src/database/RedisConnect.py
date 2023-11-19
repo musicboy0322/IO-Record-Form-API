@@ -1,17 +1,16 @@
 import redis
-from dotenv import load_dotenv
-import os
+import configparser
 
 class RedisConnect:
 
     def __init__(self):
-        load_dotenv('C:\settings\.env')
-        print(load_dotenv('C:\settings\.env'))
+        config = configparser.ConfigParser()
+        config.read('C:/settings/config.ini')
 
         self.redis_settings = {
-            "host": os.getenv('REDIS_HOST'),
-            "port": int(os.getenv('REDIS_PORT')),
-            "db": int(os.getenv('REDIS_DB'))
+            "host": config.get('Redis', 'REDIS_HOST'),
+            "port": int(config.get('Redis', 'REDIS_PORT')),
+            "db": int(config.get('Redis', 'REDIS_DB'))
         }
 
     def conn(self):
