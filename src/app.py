@@ -112,5 +112,18 @@ def input_delete():
     result = db.conn_other(f"DELETE FROM input WHERE input_id = {input_id} AND record_id = {record_id};", "DELETE")
     return result;
 
+# patient api
+@app.route("/api/patient", methods = ["GET"])
+def patient_get():
+    data = db.conn_get(f"SELECT * FROM record;")
+    data = change_to_json(data)
+    return data;
+
+@app.route("/api/patient/<record_id>", methods = ["GET"])
+def patient_get_specific(record_id):
+    data = db.conn_get(f"SELECT * FROM record WHERE record_id = {record_id};")
+    data = change_to_json(data)
+    return data;
+
 if __name__ == '__main__':
     app.run()
