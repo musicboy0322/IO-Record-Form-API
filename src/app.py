@@ -125,5 +125,15 @@ def patient_get_specific(record_id):
     data = change_to_json(data)
     return data;
 
+@app.route("/api/patient/register", methods = ["UPDATE"])
+def patient_register():
+    table = request.values['table']
+    table_id = request.values['table_id']
+    id = request.values['id']
+    record_id = request.values['record_id']
+    print(f"UPDATE {table} SET checked = true WHERE {table_id} = {id} AND record_id = {record_id};")
+    result = db.conn_other(f"UPDATE {table} SET checked = true WHERE {table_id} = {id} AND record_id = {record_id};", "UPDATE")
+    return result
+
 if __name__ == '__main__':
     app.run()
