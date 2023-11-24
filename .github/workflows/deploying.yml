@@ -21,6 +21,6 @@ jobs:
           connect_timeout: 20s
           script: |
             docker pull nobody1990/io-record-form
-            FOR /F %i IN ('docker ps -q') DO SET CONTAINER_ID=%i
+            FOR /F "tokens=*" %i IN ('docker ps -q') DO SET CONTAINER_ID=%i
             docker stop %CONTAINER_ID%
             ${{ secrets.DOCKER_INSTRUCTION }}
