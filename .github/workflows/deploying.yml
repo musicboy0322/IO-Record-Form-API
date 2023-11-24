@@ -21,3 +21,4 @@ jobs:
         connect_timeout: 20s
         script: |
           echo "Hello
+        run: |
