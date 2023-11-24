@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: cross-the-world/ssh-pipeline@master
-    - name: Connect in remote server and set new docker image
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        port: ${{ secrets.SERVER_PORT }}
-        user: ${{ secrets.SERVER_USER }}
-        pass: ${{ secrets.SERVER_PASSWORD }}
-        connect_timeout: 20s
-        script: |
-          echo "Hello
-        run: |
+      - uses: cross-the-world/ssh-pipeline@master
+      - name: Connect in remote server and set new docker image
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT }}
+          user: ${{ secrets.SERVER_USER }}
+          pass: ${{ secrets.SERVER_PASSWORD }}
+          connect_timeout: 20s
+          script: |
+            echo "Hello
+          run: |
