@@ -20,4 +20,7 @@ jobs:
           pass: ${{ secrets.SERVER_PASSWORD }}
           connect_timeout: 20s
           script: |
-            echo "Hello
+            docker pull nobody1990/io-record-form
+            docker FOR /F %i IN ('docker ps -q') DO SET CONTAINER_ID=%i
+            docker stop %CONTAINER_ID%
+            ${{ secrets.DOCKER_INSTRUCTION }}
