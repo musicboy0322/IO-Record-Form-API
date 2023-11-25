@@ -22,4 +22,4 @@ jobs:
           script: |
             docker pull nobody1990/io-record-form
             FOR /F %i IN ('docker ps -q') DO SET CONTAINER_ID=%i
-            ECHO %CONTAINER_ID%
+            ECHO ^%CONTAINER_ID%^
