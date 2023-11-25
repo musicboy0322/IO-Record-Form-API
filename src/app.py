@@ -125,7 +125,7 @@ def patient_get_specific(record_id):
     data = change_to_json(data)
     return data;
 
-@app.route("/api/patient/register", methods = ["UPDATE"])
+@app.route("/api/patient/register", methods = ["PATCH"])
 def patient_register():
     table = request.values['table']
     table_id = request.values['table_id']
