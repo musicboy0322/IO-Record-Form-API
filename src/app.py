@@ -131,9 +131,20 @@ def patient_register():
     table_id = request.values['table_id']
     id = request.values['id']
     record_id = request.values['record_id']
-    print(f"UPDATE {table} SET checked = true WHERE {table_id} = {id} AND record_id = {record_id};")
     result = db.conn_other(f"UPDATE {table} SET checked = true WHERE {table_id} = {id} AND record_id = {record_id};", "UPDATE")
     return result
+
+# nurse api
+@app.route("/api/nurse/<account>/<password>", methods = ["GET"])
+def nurse_get(account, password):
+    try:
+        data = db.conn_get(f"SELECT employee_id, name FROM password WHERE account = {account} AND password = {password}")
+        data = change_to_json(data)
+        return data
+    except Exception as e:
+        return e
+
+    
 
 if __name__ == '__main__':
     app.run()
