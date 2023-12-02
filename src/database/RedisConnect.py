@@ -6,7 +6,6 @@ class RedisConnect:
     def __init__(self):
         config = configparser.ConfigParser()
         config.read('config.ini')
-        print(config)
 
         self.redis_settings = {
             "host": config.get('Redis', 'REDIS_HOST'),
@@ -16,7 +15,8 @@ class RedisConnect:
 
     def conn(self):
         try:
-            redis_conn = redis.StrictRedis(host=self.redis_settings.get('host'), port=self.redis_settings.get('port'), db=self.redis_settings.get('db'))
-            
+            redis_conn = redis.Redis(host=self.redis_settings.get('host'), port=self.redis_settings.get('port'), db=self.redis_settings.get('db'))
+            return redis_conn
+
         except Exception as e:
             print(e)

@@ -1,12 +1,14 @@
 from flask import Flask, request
 from flask_cors import CORS
 from database.DatabaseConnect import DatabaseConnect
-from module.functions import change_to_json
+from database.RedisConnect import RedisConnect
+from module.functions import change_to_json, split_amount_result, split_total_amount
 
 app = Flask(__name__)
 CORS(app)
 
-db = DatabaseConnect(); 
+db = DatabaseConnect()
+redis = RedisConnect()
 
 # output api
 # poop
@@ -144,7 +146,50 @@ def nurse_get(account, password):
     except Exception as e:
         return e
 
-    
+# amount api
+@app.route("/api/input/amount/<date>/<record_id>/<period>/<state>", methods = ["GET"])
+def amount_input_get(date, record_id, period, state):
+    amount_count = db.conn_get(f"SELECT COUNT(*) FROM input WHERE date = {date} AND record_id = {record_id} AND period = {period} AND state = '{state}'")
+    amount_count = split_amount_result(str(amount_count))
+    key = date + record_id + period + state
+    if(redis.conn().lindex(key, 0) == None):
+        total_amount = db.conn_get(f"SELECT SUM(amount) FROM input WHERE date = {date} AND record_id = {record_id} AND period = {period} AND state = '{state}'")
+        total_amount = split_total_amount(str(total_amount))
+        redis.conn().lpush(key, amount_count, total_amount)
+        redis.conn().expire(key, 86400)
+        return str(total_amount)
+    elif(redis.conn().lindex(key, 0) != amount_count):
+        total_amount = db.conn_get(f"SELECT SUM(amount) FROM input WHERE date = {date} AND record_id = {record_id} AND period = {period} AND state = '{state}'")
+        total_amount = split_total_amount(str(total_amount))
+        redis.conn().lset(key, 0, amount_count)
+        redis.conn().lset(key, 1, total_amount)
+        redis.conn().expire(key, 86400)
+        return str(total_amount)
+    else: 
+        total_amount = redis.conn().lindex(key, 1)
+        return str(total_amount)
+
+@app.route("/api/output/amount/<date>/<record_id>/<period>/<table>", methods = ["GET"])
+def amount_output_get(date, record_id, period, table):
+    amount_count = db.conn_get(f"SELECT COUNT(*) FROM {table} WHERE date = {date} AND record_id = {record_id} AND period = {period}")
+    amount_count = split_amount_result(str(amount_count))
+    key = date + record_id + period + table
+    if(redis.conn().lindex(key, 0) == None):
+        total_amount = db.conn_get(f"SELECT SUM(amount) FROM {table} WHERE date = {date} AND record_id = {record_id} AND period = {period}")
+        total_amount = split_total_amount(str(total_amount))
+        redis.conn().lpush(key, amount_count, total_amount)
+        redis.conn().expire(key, 86400)
+        return str(total_amount)
+    elif(redis.conn().lindex(key, 0) != amount_count):
+        total_amount = db.conn_get(f"SELECT SUM(amount) FROM {table} WHERE date = {date} AND record_id = {record_id} AND period = {period}")
+        total_amount = split_total_amount(str(total_amount))
+        redis.conn().lset(key, 0, amount_count)
+        redis.conn().lset(key, 1, total_amount)
+        redis.conn().expire(key, 86400)
+        return str(total_amount)
+    else: 
+        total_amount = redis.conn().lindex(key, 1)
+        return str(total_amount)
 
 if __name__ == '__main__':
     app.run()
