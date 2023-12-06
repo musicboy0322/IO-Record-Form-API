@@ -142,7 +142,10 @@ def nurse_get(account, password):
     try:
         data = db.conn_get(f"SELECT employee_id, name FROM password WHERE account = {account} AND password = {password}")
         data = change_to_json(data)
-        return data
+        if(len(data) == 2):
+            return "Account not found"
+        else:
+            return data
     except Exception as e:
         return e
 
