@@ -1,5 +1,5 @@
 from cmath import exp
-from src.module.functions import split_amount_result, split_total_amount, yield_random_identifier, change_to_json
+from src.module.functions import split_amount_result, split_total_amount, split_vertification_result, yield_random_identifier, change_to_json
 import json
 
 def test_yield_random_identifier():
@@ -25,4 +25,9 @@ def test_split_amount_result():
 def test_split_total_amount():
     real = split_total_amount("((Decimal('23'),),)")
     expect = 23
+    assert real == expect
+
+def test_split_vertification():
+    real = split_vertification_result('((1,),)')
+    expect = 1
     assert real == expect

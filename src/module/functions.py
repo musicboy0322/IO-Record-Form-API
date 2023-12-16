@@ -21,3 +21,7 @@ def split_amount_result(data):
 def split_total_amount(data):
     split = int(data.split("'")[1].split("'")[0])
     return split
+
+def split_vertification_result(data):
+    split = int(data.split(',')[0].split('(')[2])
+    return split

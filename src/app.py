@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_cors import CORS
 from database.DatabaseConnect import DatabaseConnect
 from database.RedisConnect import RedisConnect
-from module.functions import change_to_json, split_amount_result, split_total_amount
+from module.functions import change_to_json, split_amount_result, split_total_amount, split_vertification_result
 
 app = Flask(__name__)
 CORS(app)
@@ -193,6 +193,16 @@ def amount_output_get(date, record_id, period, table):
     else: 
         total_amount = redis.conn().lindex(key, 1)
         return str(total_amount)
+
+# vertification api
+@app.route("/api/vertification/<record_id>/<vertification>", methods = ["GET"])
+def vertification_get(record_id, vertification):
+    result = db.conn_get(f"SELECT EXISTS(SELECT * FROM vertification WHERE record_id = '{record_id}' AND vertification = '{vertification}')")
+    result = split_vertification_result(str(result))
+    if(result == 1):
+        return "Correct"
+    else:
+        return "Wrong"
 
 if __name__ == '__main__':
     app.run()
