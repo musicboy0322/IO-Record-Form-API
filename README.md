@@ -3,7 +3,7 @@
 * Feature：
   * Using RESTful API style design the API.
   * The API have been set up on internet so that developing will not been limited by local side.
-  * Using CI/CD automatically finish testing, structuring and deploying by GitHub Actions.
+  * Using CI/CD automatically finish testing, building and deploying by GitHub Actions.
   * Using cache database store the data which frequently been used and calculated, so it can reduce database’s loading.
 * System Design：
     
