@@ -178,6 +178,8 @@ def nurse_get(account, password):
 def amount_input_get(date, record_id, period, state):
     amount_count = db.conn_get(f"SELECT COUNT(*) FROM input WHERE date = {date} AND record_id = {record_id} AND period = {period} AND state = '{state}'")
     amount_count = split_amount_result(str(amount_count))
+    if(amount_count == 0):
+        return str(0)
     key = date + record_id + period + state
     if(redis.conn().lindex(key, 0) == None):
         total_amount = db.conn_get(f"SELECT SUM(amount) FROM input WHERE date = {date} AND record_id = {record_id} AND period = {period} AND state = '{state}'")
@@ -200,6 +202,8 @@ def amount_input_get(date, record_id, period, state):
 def amount_output_get(date, record_id, period, table):
     amount_count = db.conn_get(f"SELECT COUNT(*) FROM {table} WHERE date = {date} AND record_id = {record_id} AND period = {period}")
     amount_count = split_amount_result(str(amount_count))
+    if(amount_count == 0):
+        return str(0)
     key = date + record_id + period + table
     if(redis.conn().lindex(key, 0) == None):
         total_amount = db.conn_get(f"SELECT SUM(amount) FROM {table} WHERE date = {date} AND record_id = {record_id} AND period = {period}")
@@ -217,6 +221,7 @@ def amount_output_get(date, record_id, period, table):
     else: 
         total_amount = redis.conn().lindex(key, 1)
         return str(total_amount)
+    
 
 # vertification api
 @app.route("/api/vertification/<record_id>/<vertification>", methods = ["GET"])
