@@ -13,8 +13,14 @@ redis = RedisConnect()
 # output api
 # poop
 @app.route("/api/output/poop/<date>/<record_id>", methods = ["GET"])
-def output_poop_get(date, record_id):
+def output_poop_get_patient(date, record_id):
     data = db.conn_get(f"SELECT output_poop_id, record_id, date, time, property, color, amount, checked, period FROM output_poop LEFT JOIN output_poop_property ON output_poop.property_id = output_poop_property.property_id LEFT JOIN output_poop_color ON output_poop.color_id = output_poop_color.color_id WHERE date = {date} AND record_id = {record_id};")
+    data = change_to_json(data)
+    return data;
+
+@app.route("/api/output/poop/<date>/<record_id>/<period>", methods = ["GET"])
+def output_poop_get_nurse(date, record_id, period):
+    data = db.conn_get(f"SELECT output_poop_id, record_id, date, time, property, color, amount, checked, period FROM output_poop LEFT JOIN output_poop_property ON output_poop.property_id = output_poop_property.property_id LEFT JOIN output_poop_color ON output_poop.color_id = output_poop_color.color_id WHERE date = {date} AND record_id = {record_id} AND period = {period};")
     data = change_to_json(data)
     return data;
 
@@ -39,8 +45,14 @@ def output_poop_delete():
 
 # pee
 @app.route("/api/output/pee/<date>/<record_id>", methods = ["GET"])
-def output_pee_get(date, record_id):
+def output_pee_get_patient(date, record_id):
     data = db.conn_get(f"SELECT output_pee_id, record_id, date, time, color, amount, checked, period FROM output_pee LEFT JOIN output_pee_color ON output_pee.color_id = output_pee_color.color_id WHERE date = {date} AND record_id = {record_id};")
+    data = change_to_json(data)
+    return data;
+
+@app.route("/api/output/pee/<date>/<record_id>/<period>", methods = ["GET"])
+def output_pee_get_nurse(date, record_id, period):
+    data = db.conn_get(f"SELECT output_pee_id, record_id, date, time, color, amount, checked, period FROM output_pee LEFT JOIN output_pee_color ON output_pee.color_id = output_pee_color.color_id WHERE date = {date} AND record_id = {record_id} AND period = {period};")
     data = change_to_json(data)
     return data;
 
@@ -64,8 +76,14 @@ def output_pee_delete():
 
 # vomit
 @app.route("/api/output/vomit/<date>/<record_id>", methods = ["GET"])
-def output_vomit_get(date, record_id):
+def output_vomit_get_nurse(date, record_id):
     data = db.conn_get(f"SELECT * FROM output_vomit WHERE date = {date} AND record_id = {record_id};")
+    data = change_to_json(data)
+    return data;
+
+@app.route("/api/output/vomit/<date>/<record_id>/<period>", methods = ["GET"])
+def output_vomit_get_patient(date, record_id, period):
+    data = db.conn_get(f"SELECT * FROM output_vomit WHERE date = {date} AND record_id = {record_id} AND period = {period};")
     data = change_to_json(data)
     return data;
 
@@ -89,8 +107,14 @@ def output_vomit_delete():
 
 # input api
 @app.route("/api/input/<date>/<record_id>", methods = ["GET"])
-def input_get(date, record_id):
+def input_get_patient(date, record_id):
     data = db.conn_get(f"SELECT * FROM input WHERE date = {date} AND record_id = {record_id};")
+    data = change_to_json(data)
+    return data;
+
+@app.route("/api/input/<date>/<record_id>/<period>", methods = ["GET"])
+def input_get_nurse(date, record_id, period):
+    data = db.conn_get(f"SELECT * FROM input WHERE date = {date} AND record_id = {record_id} AND period = {period};")
     data = change_to_json(data)
     return data;
 
